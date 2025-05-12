@@ -52,38 +52,25 @@
                             @endif
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description', $juice->description) }}</textarea>
-                        @error('description')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $juice->description) }}</textarea>
                     </div>
 
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label for="price_small" class="form-label">Small Size Price (৳) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('price_small') is-invalid @enderror" id="price_small" name="price_small" value="{{ old('price_small', $juice->price_small) }}" step="0.01" min="0" required>
-                            @error('price_small')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="price_small" class="form-label">Small Size Price (৳)</label>
+                            <input type="number" class="form-control" id="price_small" name="price_small" value="{{ old('price_small', $juice->price_small) }}" step="0.01" min="0">
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="price_medium" class="form-label">Medium Size Price (৳) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('price_medium') is-invalid @enderror" id="price_medium" name="price_medium" value="{{ old('price_medium', $juice->price_medium) }}" step="0.01" min="0" required>
-                            @error('price_medium')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="price_medium" class="form-label">Medium Size Price (৳)</label>
+                            <input type="number" class="form-control" id="price_medium" name="price_medium" value="{{ old('price_medium', $juice->price_medium) }}" step="0.01" min="0">
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="price_large" class="form-label">Large Size Price (৳) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('price_large') is-invalid @enderror" id="price_large" name="price_large" value="{{ old('price_large', $juice->price_large) }}" step="0.01" min="0" required>
-                            @error('price_large')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="price_large" class="form-label">Large Size Price (৳)</label>
+                            <input type="number" class="form-control" id="price_large" name="price_large" value="{{ old('price_large', $juice->price_large) }}" step="0.01" min="0">
                         </div>
                     </div>
 

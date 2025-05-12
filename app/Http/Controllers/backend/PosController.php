@@ -53,14 +53,17 @@ class PosController extends Controller
         'discount' => 'required|numeric',
         'total' => 'required|numeric',
     ]);
+    $lastId = Order::latest('id')->value('id') ?? 0;
+
+
     
     try {
         DB::beginTransaction();
         
         // Create order
         $order = new Order();
-        $order->order_number = 'ORD-' . str_pad(Order::count() + 1, 6, '0', STR_PAD_LEFT); // Unique order number
-        $order->order_name = Order::generateOrderName(); // Cyclical order name (folafol-1 to folafol-100)
+        $order->order_number = 'ORD-' . str_pad($lastId + 1, 6, '0', STR_PAD_LEFT);
+        $order->order_name = Order::generateOrderName(); 
         $order->subtotal = $request->subtotal;
         $order->discount = $request->discount;
         $order->total = $request->total;

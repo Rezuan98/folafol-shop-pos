@@ -150,21 +150,15 @@
                         <div class="collapse" id="orderCollapse">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">All Orders</a>
+                                    <a href="{{ route('admin.pos.orders') }}" class="nav-link">All Orders</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Today's Orders</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Completed Orders</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Cancelled Orders</a>
+                                    <a href="{{ route('admin.pos.index') }}" class="nav-link">New Order (POS)</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-
+                    <!-- Inventory Section -->
                     <!-- Inventory Section -->
                     <li class="nav-item nav-category">Inventory</li>
                     <li class="nav-item">
@@ -176,16 +170,13 @@
                         <div class="collapse" id="inventoryCollapse">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Add Ingredients</a>
+                                    <a href="{{ route('admin.ingredients.create') }}" class="nav-link">Add Ingredients</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Manage Ingredients</a>
+                                    <a href="{{ route('admin.ingredients.index') }}" class="nav-link">Manage Ingredients</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Low Stock Alert</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Stock In/Out</a>
+                                    <a href="{{ route('admin.ingredients.low-stock') }}" class="nav-link">Low Stock Alert</a>
                                 </li>
                             </ul>
                         </div>
@@ -202,19 +193,16 @@
                         <div class="collapse" id="reportsCollapse">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Daily Sales</a>
+                                    <a href="{{ route('admin.reports.index') }}" class="nav-link">Reports Dashboard</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Weekly Sales</a>
+                                    <a href="{{ route('admin.reports.daily') }}" class="nav-link">Daily Sales</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Monthly Sales</a>
+                                    <a href="{{ route('admin.reports.weekly') }}" class="nav-link">Weekly Sales</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Yearly Sales</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Best Selling Items</a>
+                                    <a href="{{ route('admin.reports.monthly') }}" class="nav-link">Monthly Sales</a>
                                 </li>
                             </ul>
                         </div>
@@ -254,13 +242,10 @@
                         <div class="collapse" id="userCollapse">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Add User</a>
+                                    <a href="{{ route('admin.users.create') }}" class="nav-link">Add User</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">All Users</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Roles & Permissions</a>
+                                    <a href="{{ route('admin.users.index') }}" class="nav-link">All Users</a>
                                 </li>
                             </ul>
                         </div>

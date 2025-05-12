@@ -135,7 +135,7 @@
                         </a>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <a href="#" class="btn btn-warning btn-block py-3">
+                        <a href="{{ route('admin.ingredients.index') }}" class="btn btn-warning btn-block py-3">
                             <i data-feather="package" class="icon-md me-2"></i>
                             Manage Stock
                         </a>
@@ -255,7 +255,7 @@
                     </div>
                 </div>
                 <div class="d-grid mt-4">
-                    <a href="#" class="btn btn-primary">Update Stock</a>
+                    <a href="{{ route('admin.ingredients.low-stock') }}" class="btn btn-primary">Update Stock</a>
                 </div>
             </div>
         </div>

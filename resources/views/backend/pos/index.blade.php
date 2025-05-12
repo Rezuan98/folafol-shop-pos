@@ -99,6 +99,13 @@
         padding-top: 15px;
     }
 
+    .size-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #f8f9fa;
+        color: #6c757d;
+    }
+
 </style>
 @endpush
 
@@ -216,6 +223,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- Receipt Preview Modal -->
                 <div class="modal fade" id="receiptPreviewModal" tabindex="-1" aria-labelledby="receiptPreviewModalLabel" aria-hidden="true">
@@ -390,6 +399,17 @@
         // Update date/time initially
         updateDateTime();
 
+        // Add data attributes for availability to all juice items
+        $('.juice-item').each(function() {
+            const priceSmall = $(this).data('price-small');
+            const priceMedium = $(this).data('price-medium');
+            const priceLarge = $(this).data('price-large');
+
+            $(this).attr('data-small-available', priceSmall !== null ? 'true' : 'false');
+            $(this).attr('data-medium-available', priceMedium !== null ? 'true' : 'false');
+            $(this).attr('data-large-available', priceLarge !== null ? 'true' : 'false');
+        });
+
         // Juice item click handler
         $('.juice-item').on('click', function() {
             const juiceId = $(this).data('id');
@@ -398,18 +418,62 @@
             const priceMedium = $(this).data('price-medium');
             const priceLarge = $(this).data('price-large');
 
+            // Get availability data
+            const smallAvailable = priceSmall !== null;
+            const mediumAvailable = priceMedium !== null;
+            const largeAvailable = priceLarge !== null;
+
             // Update modal
             $('#selectedJuiceId').val(juiceId);
             $('#selectedJuiceName').text(juiceName);
-            $('#priceSmall').text('৳' + priceSmall);
-            $('#priceMedium').text('৳' + priceMedium);
-            $('#priceLarge').text('৳' + priceLarge);
-            $('#itemQuantity').val(1);
 
-            // Reset selection
-            $('.size-btn').removeClass('active');
-            $('.size-btn[data-size="medium"]').addClass('active');
-            selectedSize = 'medium';
+            // Reset selection and disable unavailable sizes
+            $('.size-btn').removeClass('active disabled');
+
+            // Handle Small size
+            if (smallAvailable) {
+                $('#priceSmall').text('৳' + priceSmall);
+                $('.size-btn[data-size="small"]').removeClass('disabled');
+            } else {
+                $('#priceSmall').text('Unavailable');
+                $('.size-btn[data-size="small"]').addClass('disabled');
+            }
+
+            // Handle Medium size
+            if (mediumAvailable) {
+                $('#priceMedium').text('৳' + priceMedium);
+                $('.size-btn[data-size="medium"]').removeClass('disabled');
+            } else {
+                $('#priceMedium').text('Unavailable');
+                $('.size-btn[data-size="medium"]').addClass('disabled');
+            }
+
+            // Handle Large size
+            if (largeAvailable) {
+                $('#priceLarge').text('৳' + priceLarge);
+                $('.size-btn[data-size="large"]').removeClass('disabled');
+            } else {
+                $('#priceLarge').text('Unavailable');
+                $('.size-btn[data-size="large"]').addClass('disabled');
+            }
+
+            // Set default selected size (choose the first available size)
+            if (mediumAvailable) {
+                $('.size-btn[data-size="medium"]').addClass('active');
+                selectedSize = 'medium';
+            } else if (smallAvailable) {
+                $('.size-btn[data-size="small"]').addClass('active');
+                selectedSize = 'small';
+            } else if (largeAvailable) {
+                $('.size-btn[data-size="large"]').addClass('active');
+                selectedSize = 'large';
+            } else {
+                // No sizes available
+                toastr.error('This juice is not available in any size');
+                return; // Don't show the modal
+            }
+
+            $('#itemQuantity').val(1);
 
             // Show modal
             $('#sizeModal').modal('show');
@@ -417,6 +481,11 @@
 
         // Size button click handler
         $('.size-btn').on('click', function() {
+            if ($(this).hasClass('disabled')) {
+                toastr.error('This size is not available');
+                return;
+            }
+
             $('.size-btn').removeClass('active');
             $(this).addClass('active');
             selectedSize = $(this).data('size');
@@ -428,6 +497,12 @@
             const juiceId = $('#selectedJuiceId').val();
             const juiceName = $('#selectedJuiceName').text();
 
+            // Check if selected size is available
+            if ($('.size-btn[data-size="' + selectedSize + '"]').hasClass('disabled')) {
+                toastr.error('This size is not available');
+                return;
+            }
+
             // Get price based on selected size
             let price = 0;
             if (selectedSize === 'small') {
@@ -436,6 +511,12 @@
                 price = parseFloat($('#priceMedium').text().replace('৳', ''));
             } else if (selectedSize === 'large') {
                 price = parseFloat($('#priceLarge').text().replace('৳', ''));
+            }
+
+            // Double check the price is valid
+            if (isNaN(price) || price === 0) {
+                toastr.error('Invalid price for selected size');
+                return;
             }
 
             const cartItem = {
@@ -484,21 +565,21 @@
                 cartItems.forEach((item, index) => {
                     const sizeLabel = item.size.charAt(0).toUpperCase() + item.size.slice(1);
                     const itemHtml = `
-                        <div class="cart-item">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h6 class="mb-0">${item.name}</h6>
-                                    <small class="text-muted">${sizeLabel}, ৳${item.price.toFixed(2)} x ${item.quantity}</small>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="me-3">৳${item.total.toFixed(2)}</span>
-                                    <button class="btn btn-sm btn-outline-danger remove-item" data-index="${index}">
-                                        <i data-feather="x"></i>
-                                    </button>
-                                </div>
-                            </div>
+                <div class="cart-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="mb-0">${item.name}</h6>
+                            <small class="text-muted">${sizeLabel}, ৳${item.price.toFixed(2)} x ${item.quantity}</small>
                         </div>
-                    `;
+                        <div class="d-flex align-items-center">
+                            <span class="me-3">৳${item.total.toFixed(2)}</span>
+                            <button class="btn btn-sm btn-outline-danger remove-item" data-index="${index}">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
 
                     $('#cartItems').append(itemHtml);
                 });
@@ -548,23 +629,23 @@
 
                 // Customer receipt items
                 const customerItemHtml = `
-                    <tr>
-                        <td>${item.name} (${sizeLabel})</td>
-                        <td>৳${item.price.toFixed(2)}</td>
-                        <td>${item.quantity}</td>
-                        <td>৳${item.total.toFixed(2)}</td>
-                    </tr>
-                `;
+            <tr>
+                <td>${item.name} (${sizeLabel})</td>
+                <td>৳${item.price.toFixed(2)}</td>
+                <td>${item.quantity}</td>
+                <td>৳${item.total.toFixed(2)}</td>
+            </tr>
+        `;
                 $('#preview-items-list').append(customerItemHtml);
 
                 // Kitchen receipt items
                 const kitchenItemHtml = `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>${sizeLabel}</td>
-                        <td>${item.quantity}</td>
-                    </tr>
-                `;
+            <tr>
+                <td>${item.name}</td>
+                <td>${sizeLabel}</td>
+                <td>${item.quantity}</td>
+            </tr>
+        `;
                 $('#preview-kitchen-items-list').append(kitchenItemHtml);
             });
         }
