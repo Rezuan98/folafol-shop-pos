@@ -91,7 +91,7 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar">
             <div class="sidebar-header">
-                <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
+                <a href="{{ route('dashboard') }}" class="sidebar-brand">
                     Folafol<span>BD</span>
                 </a>
                 <div class="sidebar-toggler not-active">
@@ -104,7 +104,7 @@
                 <ul class="nav">
                     <li class="nav-item nav-category">Main</li>
                     <li class="nav-item">
-                        <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
                             <i class="link-icon" data-feather="box"></i>
                             <span class="link-title">Dashboard</span>
                         </a>
@@ -253,7 +253,7 @@
 
                     <li class="nav-item nav-category">Account</li>
                     <li class="nav-item">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="nav-link bg-transparent border-0 d-flex align-items-center w-100" style="cursor: pointer;">
                                 <i class="link-icon" data-feather="log-out"></i>
@@ -370,10 +370,13 @@
                                         </a>
                                     </li>
                                     <li class="dropdown-item py-2">
-                                        <a href="#" class="text-body ms-0">
-                                            <i class="me-2 icon-md" data-feather="log-out"></i>
-                                            <span>Log Out</span>
-                                        </a>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="link-icon" data-feather="log-out"></i>rezuan
+                                            </button>
+                                        </form>
+
                                     </li>
                                 </ul>
                             </div>

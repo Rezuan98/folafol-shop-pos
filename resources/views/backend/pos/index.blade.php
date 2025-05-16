@@ -277,7 +277,9 @@
                                                     <tr>
                                                         <td colspan="3" class="text-end">Discount:</td>
                                                         <td id="preview-discount">৳0</td>
+
                                                     </tr>
+
                                                     <tr>
                                                         <td colspan="3" class="text-end"><strong>Total:</strong></td>
                                                         <td id="preview-total"><strong>৳0</strong></td>
@@ -343,6 +345,19 @@
                         </div>
                         <span id="discountTotal">৳0</span>
                     </div>
+                    <!-- Payment Method Selection -->
+                    <div class="mb-3 no-print">
+                        <label for="payment-method" class="form-label fw-semibold">Payment Method</label>
+                        <select name="payment_method" id="payment-method" class="form-select">
+                            <option value="cash">Cash</option>
+                            <option value="bkash">bKash</option>
+                            <option value="nagad">Nagad</option>
+                            <option value="bank">Bank</option>
+                            <option value="card">Card</option>
+                            <option value="other">other</option>
+                        </select>
+                    </div>
+
                     <div class="d-flex justify-content-between mb-2 fs-5 fw-bold">
                         <span>Total:</span>
                         <span id="grandTotal">৳0</span>
@@ -708,11 +723,15 @@
             const subtotal = parseFloat($('#subtotal').text().replace('৳', ''));
             const discount = parseFloat($('#discountAmount').val()) || 0;
             const total = parseFloat($('#grandTotal').text().replace('৳', ''));
+            const payment_method = $('#payment-method').val();
+
+            // alert('Payment method: ' + payment_method);
 
             const orderData = {
                 items: cartItems
                 , subtotal: subtotal
                 , discount: discount
+                , payment_method: payment_method
                 , total: total
             };
 

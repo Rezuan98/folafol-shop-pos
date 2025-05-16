@@ -41,6 +41,7 @@ class PosController extends Controller
      */
    public function checkout(Request $request)
 {
+    
     $request->validate([
         'items' => 'required|array',
         'items.*.id' => 'required|exists:juices,id',
@@ -51,6 +52,7 @@ class PosController extends Controller
         'items.*.total' => 'required|numeric',
         'subtotal' => 'required|numeric',
         'discount' => 'required|numeric',
+'payment_method' => 'required|in:cash,bkash,nagad,bank,card,other',
         'total' => 'required|numeric',
     ]);
     $lastId = Order::latest('id')->value('id') ?? 0;
@@ -67,7 +69,7 @@ class PosController extends Controller
         $order->subtotal = $request->subtotal;
         $order->discount = $request->discount;
         $order->total = $request->total;
-        $order->payment_method = 'Cash';
+        $order->payment_method = $request->payment_method;
         $order->status = 'Completed';
         $order->save();
         

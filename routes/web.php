@@ -6,10 +6,15 @@ use App\Http\Controllers\Backend\IndexController;
 use App\Http\Controllers\Backend\PosController;
 use App\Http\Controllers\Backend\IngredientController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\UserController;
 // Admin routes
 
 
- Route::get('/', [IndexController::class, 'index'])->name('admin.dashboard');
+ Route::get('/', [IndexController::class, 'index'])->name('dashboard')->middleware('auth');
+
+
+
+ Route::middleware(['auth'])->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard
    
@@ -77,4 +82,6 @@ Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.
 
 
 });
-
+ 
+ });
+require __DIR__.'/auth.php';
